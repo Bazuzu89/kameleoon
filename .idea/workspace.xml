@@ -5,34 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91a9d3e4-6f64-446b-be47-eb285f81cc3c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/DTO/VotesDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/application/KameleoonApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/QuoteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/controller/VoteController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/exceptions/NotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/exceptions/NotUniqueException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Quote.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Vote.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/repository/QuoteRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/repository/VoteRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/service/QuoteService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/service/QuoteServiceInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/service/UserServiceInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/service/VoteService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/service/VoteServiceInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/utils/Validator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +101,7 @@
       <workItem from="1676108101897" duration="705000" />
       <workItem from="1676121789563" duration="4787000" />
       <workItem from="1676282943685" duration="12898000" />
-      <workItem from="1676317894660" duration="6640000" />
+      <workItem from="1676317894660" duration="7374000" />
     </task>
     <servers />
   </component>
