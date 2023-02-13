@@ -1,0 +1,59 @@
+package model;
+
+import jakarta.persistence.*;
+
+import java.util.Date;
+
+@Entity
+@Table(name = "votes")
+public class Vote {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private long id;
+    private long userId;
+    private long quoteId;
+    private int vote;
+
+    private Date dateOfVote;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public long getQuoteId() {
+        return quoteId;
+    }
+
+    public void setQuoteId(long quoteId) {
+        this.quoteId = quoteId;
+    }
+
+    public int getVote() {
+        return vote;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
+    }
+
+    public Date getDateOfVote() {
+        return dateOfVote;
+    }
+
+    public void setDateOfVote(Date dateOfVote) {
+        this.dateOfVote = dateOfVote;
+    }
+}
