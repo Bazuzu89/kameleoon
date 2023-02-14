@@ -25,6 +25,6 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     Vote findVoteByQuoteIdAndUserId(long quoteId, long userId);
 
     @Query("SELECT votes.dateOfVote AS date, SUM(votes.vote) AS ratingPerDay FROM Vote votes " +
-            "WHERE votes.quoteId = :idquote")
+            "WHERE votes.quoteId = :idquote GROUP BY date")
     List<VotingGraphDTO> getGraph(@Param("idquote") long id);
 }
