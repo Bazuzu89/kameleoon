@@ -116,11 +116,12 @@ public class QuoteController {
         return response;
     }
 
-    @GetMapping("users/topten")
+    @GetMapping("quotes/topten")
     public ResponseEntity getTopTen() {
         ResponseEntity response;
         try {
-            Page<Quote> quotes = quoteService.getTopTen();
+//            Page<Quote> quotes = quoteService.getTopTenByField();
+            Page<Quote> quotes = quoteService.getTopTenHQL();
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -134,11 +135,12 @@ public class QuoteController {
         return response;
     }
 
-    @GetMapping("users/worstten")
+    @GetMapping("quotes/worstten")
     public ResponseEntity getWorstTen() {
         ResponseEntity response;
         try {
-            Page<Quote> quotes = quoteService.getWorstTen();
+//            Page<Quote> quotes = quoteService.getWorstTenByField();
+            Page<Quote> quotes = quoteService.getWorstTenHQL();
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)

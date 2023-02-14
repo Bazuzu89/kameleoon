@@ -14,6 +14,10 @@ public interface QuoteServiceInterface {
 
     List<Quote> getAll() throws NotFoundException;
 
-    Page<Quote> getTopTen() throws NotFoundException;
-    Page<Quote> getWorstTen() throws NotFoundException;
+    Page<Quote> getTopTenByField() throws NotFoundException;
+    Page<Quote> getWorstTenByField() throws NotFoundException;
+
+    Page<Quote> getTopTenHQL() throws NotFoundException;
+
+    Page<Quote> getWorstTenHQL() throws NotFoundException;
 }

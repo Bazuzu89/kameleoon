@@ -70,8 +70,8 @@ public class QuoteService implements QuoteServiceInterface{
     }
 
     @Override
-    public Page<Quote> getTopTen() throws NotFoundException {
-        PageRequest pageable = PageRequest.of(1,10, Sort.Direction.DESC, "votes");
+    public Page<Quote> getTopTenByField() throws NotFoundException {
+        PageRequest pageable = PageRequest.of(0,10, Sort.Direction.DESC, "votes");
         Page<Quote> quotes = repository.findAll(pageable);
         if (!quotes.isEmpty()) {
             return quotes;
@@ -80,8 +80,9 @@ public class QuoteService implements QuoteServiceInterface{
         }
     }
 
-    public Page<Quote> getWorstTen() throws NotFoundException {
-        PageRequest pageable = PageRequest.of(1,10, Sort.Direction.ASC, "votes");
+    @Override
+    public Page<Quote> getWorstTenByField() throws NotFoundException {
+        PageRequest pageable = PageRequest.of(0,10, Sort.Direction.ASC, "votes");
         Page<Quote> quotes = repository.findAll(pageable);
         if (!quotes.isEmpty()) {
             return quotes;
@@ -89,4 +90,27 @@ public class QuoteService implements QuoteServiceInterface{
             throw new NotFoundException("Quotes not found");
         }
     }
+
+    @Override
+    public Page<Quote> getTopTenHQL() throws NotFoundException {
+        PageRequest pageable = PageRequest.of(0,10, Sort.Direction.DESC, "sumvotes");
+        Page<Quote> quotes = repository.getTen(pageable);
+        if (!quotes.isEmpty()) {
+            return quotes;
+        } else {
+            throw new NotFoundException("Quotes not found");
+        }
+    }
+
+    @Override
+    public Page<Quote> getWorstTenHQL() throws NotFoundException {
+        PageRequest pageable = PageRequest.of(0,10, Sort.Direction.ASC, "sumvotes");
+        Page<Quote> quotes = repository.getTen(pageable);
+        if (!quotes.isEmpty()) {
+            return quotes;
+        } else {
+            throw new NotFoundException("Quotes not found");
+        }
+    }
+
 }
