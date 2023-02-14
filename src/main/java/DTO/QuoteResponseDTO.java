@@ -1,30 +1,21 @@
-package model;
+package DTO;
 
-import jakarta.persistence.*;
+import org.springframework.hateoas.Link;
 
+import java.util.ArrayList;
 import java.util.Date;
-@Entity
-@Table(name = "quotes")
-public class Quote {
+import java.util.List;
+
+public class QuoteResponseDTO {
     private String content;
+
     private Date dateOfCreation;
     private Date dateOfLastUpdate;
 
+    private long userId;
     private int votes;
 
-    private long userId;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
+    private List<Link> links = new ArrayList<>();
 
     public String getContent() {
         return content;
@@ -56,6 +47,18 @@ public class Quote {
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public void addLink(Link link) {
+        links.add(link);
     }
 
     public int getVotes() {

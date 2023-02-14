@@ -1,6 +1,6 @@
 package controller;
 
-import DTO.VotesDTO;
+import DTO.VotesResponseDTO;
 import exceptions.NotFoundException;
 import exceptions.NotUniqueException;
 import model.Vote;
@@ -67,11 +67,11 @@ public class VoteController {
     ResponseEntity votesResultForQuote(@PathVariable long quoteId) {
         ResponseEntity response;
         try {
-            VotesDTO votesDTO = service.getVotes(quoteId);
+            VotesResponseDTO votesResponseDTO = service.getVotes(quoteId);
             response = ResponseEntity
                     .status(HttpStatus.CREATED)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(votesDTO);
+                    .body(votesResponseDTO);
         } catch (NotFoundException e) {
             response = ResponseEntity
                     .status(HttpStatus.NOT_FOUND)

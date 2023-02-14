@@ -1,6 +1,6 @@
 package DTO;
 
-public class VotesDTO {
+public class VotesResponseDTO {
     int upVotes;
     int downVotes;
 
@@ -20,10 +20,4 @@ public class VotesDTO {
         this.downVotes = downVotes;
     }
 
-    public static VotesDTO createVotesDTO(int upVotes, int downVotes) {
-        VotesDTO votesDTO = new VotesDTO();
-        votesDTO.setUpVotes(upVotes);
-        votesDTO.setDownVotes(downVotes);
-        return votesDTO;
-    }
 }

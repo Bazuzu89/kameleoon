@@ -1,8 +1,9 @@
 package controller;
 
-import DTO.VotesDTO;
+import DTO.VotesResponseDTO;
 import exceptions.NotFoundException;
 import model.Quote;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,13 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import service.QuoteServiceInterface;
 import service.VoteServiceInterface;
 
+import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 @RestController
 public class QuoteController {
-    private QuoteServiceInterface service;
+    private QuoteServiceInterface quoteService;
     private VoteServiceInterface voteService;
 
-    public QuoteController(QuoteServiceInterface service, VoteServiceInterface voteService) {
-        this.service = service;
+    public QuoteController(QuoteServiceInterface quoteService, VoteServiceInterface voteService) {
+        this.quoteService = quoteService;
         this.voteService = voteService;
     }
 
@@ -24,7 +29,7 @@ public class QuoteController {
     ResponseEntity create(@RequestBody Quote quote) {
         ResponseEntity response;
         try {
-            Quote quoteCreated = service.create(quote);
+            Quote quoteCreated = quoteService.create(quote);
             response = ResponseEntity
                     .status(HttpStatus.CREATED)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -42,7 +47,7 @@ public class QuoteController {
     ResponseEntity update(@PathVariable long id, @RequestBody String content) {
         ResponseEntity response;
         try {
-            Quote quoteUpdated = service.update(id, content);
+            Quote quoteUpdated = quoteService.update(id, content);
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -58,10 +63,10 @@ public class QuoteController {
 
 
     @GetMapping("/quotes/votes/{id}")
-    ResponseEntity getVotes(@PathVariable long id) {
+    public ResponseEntity getVotes(@PathVariable long id) {
         ResponseEntity response;
         try {
-            VotesDTO votes = voteService.getVotes(id);
+            VotesResponseDTO votes = voteService.getVotes(id);
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -74,4 +79,77 @@ public class QuoteController {
         }
         return response;
     }
+
+    @GetMapping("/quotes/{id}")
+    public ResponseEntity get(@PathVariable long id) {
+        ResponseEntity response;
+        try {
+            Quote quote = quoteService.get(id);
+            response = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(quote);
+        } catch (NotFoundException e) {
+            response = ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(String.format("{\"message\": \"%s\"}", e.getMessage()));
+        }
+        return response;
+    }
+
+    @GetMapping("/quotes")
+    public ResponseEntity all() {
+        ResponseEntity response;
+        try {
+            List<Quote> quote = quoteService.getAll();
+            response = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(quote);
+        } catch (NotFoundException e) {
+            response = ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(String.format("{\"message\": \"%s\"}", e.getMessage()));
+        }
+        return response;
+    }
+
+    @GetMapping("users/topten")
+    public ResponseEntity getTopTen() {
+        ResponseEntity response;
+        try {
+            Page<Quote> quotes = quoteService.getTopTen();
+            response = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(quotes);
+        } catch (NotFoundException e) {
+            response = ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .contentType(APPLICATION_JSON)
+                    .body(String.format("{\"message\": \"%s\"}", e.getMessage()));
+        }
+        return response;
+    }
+
+    @GetMapping("users/worstten")
+    public ResponseEntity getWorstTen() {
+        ResponseEntity response;
+        try {
+            Page<Quote> quotes = quoteService.getWorstTen();
+            response = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(quotes);
+        } catch (NotFoundException e) {
+            response = ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .contentType(APPLICATION_JSON)
+                    .body(String.format("{\"message\": \"%s\"}", e.getMessage()));
+        }
+        return response;
+    }
+
 }

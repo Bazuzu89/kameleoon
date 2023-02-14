@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import service.UserServiceInterface;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -24,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/users/register", consumes = {"application/json"}, produces = APPLICATION_JSON_VALUE)
-    ResponseEntity create(@RequestBody User user, HttpServletRequest request) {
+    public ResponseEntity create(@RequestBody User user, HttpServletRequest request) {
         ResponseEntity response;
         try {
             User userCreated = userService.create(user);
@@ -42,10 +44,28 @@ public class UserController {
     }
 
     @GetMapping(value = "/users/{id}")
-    ResponseEntity getUser(@PathVariable long id) {
+    public ResponseEntity getUser(@PathVariable long id) {
         ResponseEntity response;
         try {
             User user = userService.get(id);
+            response = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(user);
+        } catch (NotFoundException e) {
+            response = ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .contentType(APPLICATION_JSON)
+                    .body(String.format("{\"message\": \"%s\"}", e.getMessage()));
+        }
+        return response;
+    }
+
+    @GetMapping(value = "/users")
+    public ResponseEntity all() {
+        ResponseEntity response;
+        try {
+            List<User> user = userService.getAll();
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)

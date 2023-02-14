@@ -1,6 +1,6 @@
 package service;
 
-import DTO.VotesDTO;
+import DTO.VotesResponseDTO;
 import exceptions.NotFoundException;
 import exceptions.NotUniqueException;
 import model.Vote;
@@ -14,5 +14,5 @@ public interface VoteServiceInterface {
     List<Vote> getAllByQuoteId(long quoteId);
     Vote get(long id);
 
-    VotesDTO getVotes(long quoteId) throws NotFoundException;
+    VotesResponseDTO getVotes(long quoteId) throws NotFoundException;
 }

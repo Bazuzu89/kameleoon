@@ -2,6 +2,7 @@ package service;
 
 import exceptions.NotFoundException;
 import exceptions.NotUniqueException;
+import model.Quote;
 import model.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import repository.UserRepository;
 import utils.Validator;
 
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -39,6 +41,16 @@ public class UserService implements UserServiceInterface {
             return userRepository.findById(id).get();
         } catch (NoSuchElementException e) {
             throw new NotFoundException(String.format("User with id %d not found", id));
+        }
+    }
+
+    @Override
+    public List<User> getAll() throws NotFoundException {
+        List<User> list = userRepository.findAll();
+        if (!list.isEmpty()) {
+            return list;
+        } else {
+            throw new NotFoundException("Users not found");
         }
     }
 }
