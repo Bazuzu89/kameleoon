@@ -12,6 +12,7 @@ public class Quote {
 
     private int votes;
 
+
     private long userId;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
