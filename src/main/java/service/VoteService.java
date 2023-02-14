@@ -13,6 +13,7 @@ import repository.UserRepository;
 import repository.VoteRepository;
 import utils.Validator;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -42,11 +43,12 @@ public class VoteService implements VoteServiceInterface {
         if (userRepository.existsById(vote.getUserId())
                 && quoteRepository.existsById(vote.getQuoteId())) {
             validator.checkUserVoteQuote(vote.getQuoteId(), vote.getUserId());
-            vote.setDateOfVote(new Date());
+            vote.setDateOfVote(LocalDate.now());
             Quote quote = quoteRepository.findById(vote.getQuoteId()).get();
             quote.setVotes(quote.getVotes() + vote.getVote());
             quoteRepository.save(quote);
-            return voteRepository.save(vote);
+            Vote voteSaved = voteRepository.save(vote);
+            return voteSaved;
         } else {
             throw new NotFoundException(String.format("User %d or quote %d not found in DB", vote.getUserId(), vote.getQuoteId()));
         }

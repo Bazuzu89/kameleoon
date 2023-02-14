@@ -1,5 +1,6 @@
 package repository;
 
+import DTO.VotingGraphDTO;
 import model.Vote;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,8 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
 
     Vote findVoteByQuoteIdAndUserId(long quoteId, long userId);
+
+    @Query("SELECT votes.dateOfVote AS date, SUM(votes.vote) AS ratingPerDay FROM Vote votes " +
+            "WHERE votes.quoteId = :idquote")
+    List<VotingGraphDTO> getGraph(@Param("idquote") long id);
 }

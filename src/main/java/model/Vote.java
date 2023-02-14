@@ -2,6 +2,7 @@ package model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -15,7 +16,7 @@ public class Vote {
     private long quoteId;
     private int vote;
 
-    private Date dateOfVote;
+    private LocalDate dateOfVote;
 
     public long getId() {
         return id;
@@ -49,11 +50,11 @@ public class Vote {
         this.vote = vote;
     }
 
-    public Date getDateOfVote() {
+    public LocalDate getDateOfVote() {
         return dateOfVote;
     }
 
-    public void setDateOfVote(Date dateOfVote) {
+    public void setDateOfVote(LocalDate dateOfVote) {
         this.dateOfVote = dateOfVote;
     }
 }
