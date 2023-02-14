@@ -16,9 +16,11 @@ public class AssemblerQuoteResponseDTO {
         quoteResponseDTO.setDateOfCreation(quote.getDateOfCreation());
         quoteResponseDTO.setDateOfLastUpdate(quote.getDateOfLastUpdate());
         quoteResponseDTO.setVotes(quote.getVotes());
+        quoteResponseDTO.setId(quote.getId());
         quoteResponseDTO.addLink(linkTo(methodOn(QuoteController.class).get(quote.getId())).withSelfRel());
         quoteResponseDTO.addLink(linkTo(methodOn(QuoteController.class).all()).withRel("quotes"));
         quoteResponseDTO.addLink(linkTo(methodOn(QuoteController.class).getVotes(quote.getId())).withRel("votes"));
         return quoteResponseDTO;
     }
+
 }

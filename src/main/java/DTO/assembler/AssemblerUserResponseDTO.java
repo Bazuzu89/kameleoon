@@ -16,6 +16,7 @@ public class AssemblerUserResponseDTO {
         userResponseDTO.setDateOfCreation(user.getDateOfCreation());
         userResponseDTO.addLink(linkTo(methodOn(UserController.class).getUser(user.getId())).withSelfRel());
         userResponseDTO.addLink(linkTo(methodOn(UserController.class).all()).withRel("users"));
+        userResponseDTO.setId(user.getId());
         return userResponseDTO;
     }
 }

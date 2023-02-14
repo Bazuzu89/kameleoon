@@ -1,5 +1,6 @@
 package controller;
 
+import DTO.UserResponseDTO;
 import exceptions.NotFoundException;
 import exceptions.NotUniqueException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +30,7 @@ public class UserController {
     public ResponseEntity create(@RequestBody User user, HttpServletRequest request) {
         ResponseEntity response;
         try {
-            User userCreated = userService.create(user);
+            UserResponseDTO userCreated = userService.create(user);
             response = ResponseEntity
                     .status(HttpStatus.CREATED)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -47,7 +48,7 @@ public class UserController {
     public ResponseEntity getUser(@PathVariable long id) {
         ResponseEntity response;
         try {
-            User user = userService.get(id);
+            UserResponseDTO user = userService.get(id);
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)

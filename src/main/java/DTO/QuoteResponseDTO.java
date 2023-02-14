@@ -15,6 +15,8 @@ public class QuoteResponseDTO {
     private long userId;
     private int votes;
 
+    private long id;
+
     private List<Link> links = new ArrayList<>();
 
     public String getContent() {
@@ -67,5 +69,13 @@ public class QuoteResponseDTO {
 
     public void setVotes(int votes) {
         this.votes = votes;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

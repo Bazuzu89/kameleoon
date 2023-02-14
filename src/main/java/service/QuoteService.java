@@ -1,5 +1,9 @@
 package service;
 
+import DTO.*;
+import DTO.assembler.AssemblerListOfGraphPointsDTO;
+import DTO.assembler.AssemblerListOfQuotesDTO;
+import DTO.assembler.AssemblerQuoteResponseDTO;
 import exceptions.NotFoundException;
 import model.Quote;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import repository.QuoteRepository;
 import repository.UserRepository;
+import repository.VoteRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -19,41 +24,49 @@ public class QuoteService implements QuoteServiceInterface{
     @Qualifier("quoteRepository")
     private QuoteRepository repository;
     private UserRepository userRepository;
+    private VoteRepository voteRepository;
 
-    public QuoteService(QuoteRepository repository, UserRepository userRepository) {
+    public QuoteService(QuoteRepository repository, UserRepository userRepository, VoteRepository voteRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
+        this.voteRepository = voteRepository;
     }
 
     @Override
-    public Quote create(Quote quote) throws NotFoundException {
+    public QuoteResponseDTO create(Quote quote) throws NotFoundException {
         if (userRepository.existsById(quote.getUserId())) {
             Date dateOfCreation = new Date();
             quote.setDateOfCreation(dateOfCreation);
             quote.setDateOfLastUpdate(dateOfCreation);
-            return repository.save(quote);
+            Quote quoteSaved = repository.save(quote);
+            QuoteResponseDTO quoteResponseDTO = AssemblerQuoteResponseDTO.createQuoteResponseDTO(quoteSaved);
+            return quoteResponseDTO;
         } else {
             throw new NotFoundException(String.format("User with id %d not found in DB", quote.getUserId()));
         }
     }
 
     @Override
-    public Quote get(long id) throws NotFoundException {
+    public QuoteResponseDTO get(long id) throws NotFoundException {
         try {
-            return repository.findById(id).get();
+            Quote quote = repository.findById(id).get();
+            QuoteResponseDTO quoteResponseDTO = AssemblerQuoteResponseDTO.createQuoteResponseDTO(quote);
+            return quoteResponseDTO;
         } catch (NoSuchElementException e) {
             throw new NotFoundException(String.format("Quote %d not found in DB", id));
         }
     }
 
     @Override
-    public Quote update(long id, String content) throws NotFoundException{
+    public QuoteResponseDTO update(long id, String content) throws NotFoundException{
         if (repository.existsById(id)) {
             Quote quote = new Quote();
             quote.setContent(content);
             quote.setId(id);
             quote.setDateOfLastUpdate(new Date());
-            return repository.save(quote);
+            Quote quoteSaved = repository.save(quote);
+            QuoteResponseDTO quoteResponseDTO = AssemblerQuoteResponseDTO.createQuoteResponseDTO(quote);
+            return quoteResponseDTO;
         } else {
             throw new NotFoundException(String.format("Quote with id %d not found in DB", id));
         }
@@ -92,24 +105,39 @@ public class QuoteService implements QuoteServiceInterface{
     }
 
     @Override
-    public Page<Quote> getTopTenHQL() throws NotFoundException {
-        PageRequest pageable = PageRequest.of(0,10, Sort.Direction.DESC, "sumvotes");
-        Page<Quote> quotes = repository.getTen(pageable);
+    public ListOfQuotesDTO getTopTenHQL() throws NotFoundException {
+        PageRequest pageable = PageRequest.of(0,10, Sort.Direction.DESC, "rating");
+        Page<QuoteWithRatingDTO> quotes = repository.getTen(pageable);
         if (!quotes.isEmpty()) {
-            return quotes;
+            List<QuoteWithRatingDTO> listOfQuotes = quotes.getContent();
+            ListOfQuotesDTO listOfQuotesDTO = AssemblerListOfQuotesDTO.createListOfQuotesDTO(listOfQuotes);
+            return listOfQuotesDTO;
         } else {
             throw new NotFoundException("Quotes not found");
         }
     }
 
     @Override
-    public Page<Quote> getWorstTenHQL() throws NotFoundException {
-        PageRequest pageable = PageRequest.of(0,10, Sort.Direction.ASC, "sumvotes");
-        Page<Quote> quotes = repository.getTen(pageable);
+    public ListOfQuotesDTO getWorstTenHQL() throws NotFoundException {
+        PageRequest pageable = PageRequest.of(0,10, Sort.Direction.ASC, "rating");
+        Page<QuoteWithRatingDTO> quotes = repository.getTen(pageable);
         if (!quotes.isEmpty()) {
-            return quotes;
+            List<QuoteWithRatingDTO> listOfQuotes = quotes.getContent();
+            ListOfQuotesDTO listOfQuotesDTO = AssemblerListOfQuotesDTO.createListOfQuotesDTO(listOfQuotes);
+            return listOfQuotesDTO;
         } else {
             throw new NotFoundException("Quotes not found");
+        }
+    }
+
+    @Override
+    public ListOfGraphPointsDTO getGraph(long id) throws NotFoundException {
+        List<VotingGraphDTO> graph = voteRepository.getGraph(id);
+        if (!graph.isEmpty()) {
+            ListOfGraphPointsDTO listOfGraphPointsDTO = AssemblerListOfGraphPointsDTO.createListOfGraphPointsDTO(graph, id);
+            return listOfGraphPointsDTO;
+        } else {
+            throw new NotFoundException("Votes not found");
         }
     }
 

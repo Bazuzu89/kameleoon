@@ -1,5 +1,8 @@
 package controller;
 
+import DTO.ListOfGraphPointsDTO;
+import DTO.ListOfQuotesDTO;
+import DTO.QuoteResponseDTO;
 import DTO.VotesResponseDTO;
 import exceptions.NotFoundException;
 import model.Quote;
@@ -29,7 +32,7 @@ public class QuoteController {
     ResponseEntity create(@RequestBody Quote quote) {
         ResponseEntity response;
         try {
-            Quote quoteCreated = quoteService.create(quote);
+            QuoteResponseDTO quoteCreated = quoteService.create(quote);
             response = ResponseEntity
                     .status(HttpStatus.CREATED)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -47,7 +50,7 @@ public class QuoteController {
     ResponseEntity update(@PathVariable long id, @RequestBody String content) {
         ResponseEntity response;
         try {
-            Quote quoteUpdated = quoteService.update(id, content);
+            QuoteResponseDTO quoteUpdated = quoteService.update(id, content);
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -84,7 +87,7 @@ public class QuoteController {
     public ResponseEntity get(@PathVariable long id) {
         ResponseEntity response;
         try {
-            Quote quote = quoteService.get(id);
+            QuoteResponseDTO quote = quoteService.get(id);
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +124,7 @@ public class QuoteController {
         ResponseEntity response;
         try {
 //            Page<Quote> quotes = quoteService.getTopTenByField();
-            Page<Quote> quotes = quoteService.getTopTenHQL();
+            ListOfQuotesDTO quotes = quoteService.getTopTenHQL();
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -140,7 +143,7 @@ public class QuoteController {
         ResponseEntity response;
         try {
 //            Page<Quote> quotes = quoteService.getWorstTenByField();
-            Page<Quote> quotes = quoteService.getWorstTenHQL();
+            ListOfQuotesDTO quotes = quoteService.getWorstTenHQL();
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -148,6 +151,24 @@ public class QuoteController {
         } catch (NotFoundException e) {
             response = ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
+                    .contentType(APPLICATION_JSON)
+                    .body(String.format("{\"message\": \"%s\"}", e.getMessage()));
+        }
+        return response;
+    }
+
+    @GetMapping("/quotes/votinggraph/{id}")
+    public ResponseEntity getGraph(@PathVariable long id) {
+        ResponseEntity response;
+        try {
+            ListOfGraphPointsDTO graph = quoteService.getGraph(id);
+            response = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .contentType(APPLICATION_JSON)
+                    .body(graph);
+        } catch (NotFoundException e) {
+            response = ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
                     .contentType(APPLICATION_JSON)
                     .body(String.format("{\"message\": \"%s\"}", e.getMessage()));
         }
