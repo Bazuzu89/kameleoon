@@ -3,6 +3,7 @@ package controller;
 import DTO.UserResponseDTO;
 import exceptions.NotFoundException;
 import exceptions.NotUniqueException;
+import exceptions.NotValidEmailException;
 import jakarta.servlet.http.HttpServletRequest;
 import model.User;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class UserController {
                     .status(HttpStatus.CREATED)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(userCreated);
-        } catch (NotUniqueException e) {
+        } catch (NotUniqueException | NotValidEmailException e) {
             response = ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)

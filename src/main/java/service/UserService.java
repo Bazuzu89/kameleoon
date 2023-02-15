@@ -4,6 +4,7 @@ import DTO.UserResponseDTO;
 import DTO.assembler.AssemblerUserResponseDTO;
 import exceptions.NotFoundException;
 import exceptions.NotUniqueException;
+import exceptions.NotValidEmailException;
 import model.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,10 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public UserResponseDTO create(User user) throws NotUniqueException {
+    public UserResponseDTO create(User user) throws NotUniqueException, NotValidEmailException {
+        if (!validator.isEmailValid(user.getEmail())) {
+            throw new NotValidEmailException("Invalid email");
+        }
         if (validator.isUniqueUserEmail(user.getEmail())) {
             user.setDateOfCreation(new Date());
             User userSaved = userRepository.save(user);
