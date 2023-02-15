@@ -174,4 +174,22 @@ public class QuoteController {
         return response;
     }
 
+    @GetMapping("/quotes/random")
+    public ResponseEntity getRandomQuote() {
+        ResponseEntity response;
+        try {
+            QuoteResponseDTO quote = quoteService.getRandomQuote();
+            response = ResponseEntity
+                    .status(HttpStatus.OK)
+                    .contentType(APPLICATION_JSON)
+                    .body(quote);
+        } catch(NotFoundException e) {
+            response = ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .contentType(APPLICATION_JSON)
+                    .body(String.format("{\"message\": \"%s\"}", e.getMessage()));
+        }
+        return response;
+    }
+
 }

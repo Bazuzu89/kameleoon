@@ -141,4 +141,15 @@ public class QuoteService implements QuoteServiceInterface{
         }
     }
 
+    @Override
+    public QuoteResponseDTO getRandomQuote() throws NotFoundException {
+        long count = repository.count();
+        if (count == 0) {
+            throw new NotFoundException("No quotes in DB");
+        }
+        long id = (long) (Math.random() * count);
+        Quote quote = repository.findById(id).get();
+        QuoteResponseDTO quoteResponseDTO = AssemblerQuoteResponseDTO.createQuoteResponseDTO(quote);
+        return quoteResponseDTO;
+    }
 }
