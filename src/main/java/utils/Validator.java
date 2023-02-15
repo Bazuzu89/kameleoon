@@ -4,6 +4,7 @@ import exceptions.NotUniqueException;
 import org.springframework.stereotype.Component;
 import repository.UserRepository;
 import repository.VoteRepository;
+import org.apache.commons.validator.routines.EmailValidator;
 
 @Component
 public class Validator {
@@ -26,5 +27,9 @@ public class Validator {
         if (voteRepository.findVoteByQuoteIdAndUserId(quoteId, userId) != null) {
             throw new NotUniqueException(String.format("User %d already voted for quote %d", userId, quoteId));
         }
+    }
+
+    public boolean isEmailValid(String email) {
+        return EmailValidator.getInstance().isValid(email);
     }
 }
