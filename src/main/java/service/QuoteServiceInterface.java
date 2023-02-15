@@ -25,4 +25,6 @@ public interface QuoteServiceInterface {
     ListOfQuotesDTO getWorstTenHQL() throws NotFoundException;
 
     ListOfGraphPointsDTO getGraph(long id) throws NotFoundException;
+
+    QuoteResponseDTO getRandomQuote() throws NotFoundException;
 }
