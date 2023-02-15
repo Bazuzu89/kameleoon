@@ -2,7 +2,6 @@ package DTO.assembler;
 
 import DTO.QuoteResponseDTO;
 import controller.QuoteController;
-import controller.VoteController;
 import model.Quote;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
