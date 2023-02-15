@@ -6,7 +6,6 @@ import DTO.QuoteResponseDTO;
 import DTO.VotesResponseDTO;
 import exceptions.NotFoundException;
 import model.Quote;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
