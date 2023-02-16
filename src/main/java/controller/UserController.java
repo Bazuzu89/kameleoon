@@ -1,14 +1,14 @@
 package controller;
 
+import DTO.UserResponseDTO;
 import exceptions.NotFoundException;
 import exceptions.NotUniqueException;
+import exceptions.NotValidEmailException;
 import jakarta.servlet.http.HttpServletRequest;
 import model.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import service.UserServiceInterface;
 
@@ -29,12 +29,12 @@ public class UserController {
     public ResponseEntity create(@RequestBody User user, HttpServletRequest request) {
         ResponseEntity response;
         try {
-            User userCreated = userService.create(user);
+            UserResponseDTO userCreated = userService.create(user);
             response = ResponseEntity
                     .status(HttpStatus.CREATED)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(userCreated);
-        } catch (NotUniqueException e) {
+        } catch (NotUniqueException | NotValidEmailException e) {
             response = ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -47,7 +47,7 @@ public class UserController {
     public ResponseEntity getUser(@PathVariable long id) {
         ResponseEntity response;
         try {
-            User user = userService.get(id);
+            UserResponseDTO user = userService.get(id);
             response = ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)

@@ -1,8 +1,10 @@
 package service;
 
+import DTO.UserResponseDTO;
+import DTO.assembler.AssemblerUserResponseDTO;
 import exceptions.NotFoundException;
 import exceptions.NotUniqueException;
-import model.Quote;
+import exceptions.NotValidEmailException;
 import model.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -26,19 +28,26 @@ public class UserService implements UserServiceInterface {
     }
 
     @Override
-    public User create(User user) throws NotUniqueException {
+    public UserResponseDTO create(User user) throws NotUniqueException, NotValidEmailException {
+        if (!validator.isEmailValid(user.getEmail())) {
+            throw new NotValidEmailException("Invalid email");
+        }
         if (validator.isUniqueUserEmail(user.getEmail())) {
             user.setDateOfCreation(new Date());
-            return userRepository.save(user);
+            User userSaved = userRepository.save(user);
+            UserResponseDTO userResponseDTO = AssemblerUserResponseDTO.createUserResponseDTO(userSaved);
+            return userResponseDTO;
         } else {
           throw new NotUniqueException(String.format("Email %s already used", user.getEmail()));
         }
     }
 
     @Override
-    public User get(long id) throws NotFoundException {
+    public UserResponseDTO get(long id) throws NotFoundException {
         try {
-            return userRepository.findById(id).get();
+            User user = userRepository.findById(id).get();
+            UserResponseDTO userResponseDTO = AssemblerUserResponseDTO.createUserResponseDTO(user);
+            return userResponseDTO;
         } catch (NoSuchElementException e) {
             throw new NotFoundException(String.format("User with id %d not found", id));
         }

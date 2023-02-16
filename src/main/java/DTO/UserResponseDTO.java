@@ -2,6 +2,7 @@ package DTO;
 
 import org.springframework.hateoas.Link;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,8 +10,9 @@ public class UserResponseDTO {
     private String name;
     private String email;
     private Date dateOfCreation;
+    private long id;
 
-    private List<Link> links;
+    private List<Link> links = new ArrayList<>();
 
 
     public UserResponseDTO() {
@@ -52,4 +54,11 @@ public class UserResponseDTO {
         links.add(link);
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }
